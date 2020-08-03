@@ -24,8 +24,8 @@ const App = props => {
     })
     .catch(error => {
       error ? props.receiveAlert(ALERT_STATUS_ERROR, error.message) : undefined;
-      history.push("/auth");
-      // history.push("/")
+      // history.push("/auth");
+      history.push("/")
     });
   }, [])
   return (

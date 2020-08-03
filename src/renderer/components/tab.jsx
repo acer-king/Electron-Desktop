@@ -8,6 +8,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import './tab.css'
+import { Icon } from '@material-ui/core';
+import logo from '../assets/logo.png';
+import SvgIcon from '@material-ui/core/SvgIcon';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,6 +61,14 @@ const useTabStyles = makeStyles((theme) => ({
 }));
 
 
+function HomeIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
+
 export function MyTab() {
   const classes = useStyles();
   const tabclasses = useTabStyles();
@@ -82,11 +94,11 @@ export function MyTab() {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Icon" {...a11yProps(0)} className="Tab"/>
-          <Tab label="Learn" {...a11yProps(1)} className="Tab"/>
-          <Tab label="Teach" {...a11yProps(2)} className="Tab"/>
-          <Tab label="XR" {...a11yProps(3)} className="Tab"/>
-          <Tab label="2,343" {...a11yProps(4)} className="Tab"/>
+          <Tab label={<HomeIcon color="primary" />} className="Tab" style={{backgroundColor:'#242526',color:'#ffffff'}}/>
+          <Tab label="Learn" {...a11yProps(1)} className="Tab" style={{backgroundColor:'#242526',color:'#ffffff'}}/>
+          <Tab label="Teach" {...a11yProps(2)} className="Tab" style={{backgroundColor:'#242526',color:'#ffffff'}}/>
+          <Tab label="XR" {...a11yProps(3)} className="Tab" style={{backgroundColor:'#242526',color:'#ffffff'}}/>
+          <Tab label="2,343" {...a11yProps(4)} className="Tab" style={{backgroundColor:'#242526',color:'#ffffff'}}/>
         </Tabs>
       </AppBar>
       <SwipeableViews
