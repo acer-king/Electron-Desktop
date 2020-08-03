@@ -24,7 +24,7 @@ const App = props => {
     })
     .catch(error => {
       error ? props.receiveAlert(ALERT_STATUS_ERROR, error.message) : undefined;
-      history.push("/auth");//checkme here pls remove this before deploy.
+      history.push("/auth");
       // history.push("/")
     });
   }, [])
