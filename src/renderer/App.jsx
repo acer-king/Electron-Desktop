@@ -1,64 +1,42 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { hot } from 'react-hot-loader/root'
-import logo from './assets/logo.svg'
+import { HashRouter as Router , Route, Link, Switch,useHistory } from 'react-router-dom';
 import './App.css'
-import { remote } from 'electron'
+import Sidebar from './components/sidebar'
+import MyTab from './components/tab'
+import { parserOptions } from '../../.eslintrc';
+import Auth from "./views/auth/Auth";
+import {ALERT_STATUS_ERROR, dismissAlert, receiveAlert} from "./actions/alerts";
+import {authenticateFromLocalStorage, signOut} from "./actions/auth";
+import {connect} from "react-redux"
+import PropTypes from 'prop-types'
+import { types } from '@babel/core';
 
-const App = () => {
-  const electron = process.versions.electron
-  const node = process.versions.node
-  const platform = require('os').platform()
-  const version = require('../../package.json').version
+const App = props => {
 
-  const handleLinkClick = e => {
-    e.preventDefault()
-    remote.shell.openExternal(e.currentTarget.href)
-  }
-
+  const history = useHistory();
+  
+  useEffect(() => {
+    props.authenticateFromLocalStorage()
+    .then(res=>{
+      console.log("login successs");
+      history.push("/");
+    })
+    .catch(error => {
+      error ? props.receiveAlert(ALERT_STATUS_ERROR, error.message) : undefined;
+      // history.push("/auth");//checkme here pls remove this before deploy.
+      history.push("/")
+    });
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <ul className="App-info">
-          <li>
-            electron: <span>{electron}</span>
-          </li>
-          <li>
-            node: <span>{node}</span>
-          </li>
-          <li>
-            platform: <span>{platform}</span>
-          </li>
-          <li>
-            version: <span>{version}</span>
-          </li>
-        </ul>
-        <p>
-          Edit <code>src/renderer/App.tsx</code> and save to reload.
-        </p>
-        <div>
-          <a
-            onClick={handleLinkClick}
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <a
-            onClick={handleLinkClick}
-            className="App-link"
-            href="https://electronjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Electron
-          </a>
-        </div>
-      </header>
-    </div>
-  )
+    <Router>
+        <Switch>
+          <Route path="/" exact={true} component={MyTab} />
+          <Route path="/auth" component={Auth} />
+        </Switch>
+    </Router>
+  );
 }
-
-export default hot(App)
+const mapStateToProps = state => ({alerts: state.alerts, isAuthenticated: state.auth.isValid});
+const mapDispatchToProps = {authenticateFromLocalStorage, dismissAlert, receiveAlert, signOut};
+export default connect(mapStateToProps, mapDispatchToProps)(hot(App))

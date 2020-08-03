@@ -1,0 +1,7 @@
+.TabsContainer {
+  width: "100%";
+}
+.Tab {
+  min-width: "20%";
+  background-color: #40a9ff;
+}

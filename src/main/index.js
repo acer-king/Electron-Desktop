@@ -25,7 +25,8 @@ function createWindow () {
     width: 1000,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    alwaysOnTop: true
   })
 
   mainWindow.loadURL(winURL)
@@ -33,6 +34,8 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  mainWindow.setMenu(null)
 }
 
 app.on('ready', createWindow)
